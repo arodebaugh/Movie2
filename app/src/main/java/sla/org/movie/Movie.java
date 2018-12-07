@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Movie {
+    private String[] id = new String[10];
     private String[] title = new String[10];
     private String[] rating = new String[10];
     private String[] genre = new String[10];
@@ -24,8 +25,12 @@ public class Movie {
     private String api_key = "c16cb2f114a9e49c24942d6f9590e531";
     private String api_url = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + api_key + "&language=en-US&page=1";
 
+    private Context publicContext;
+
     Movie(Context context) {
-        RequestQueue queue = Volley.newRequestQueue(context);
+        publicContext = context;
+
+        RequestQueue queue = Volley.newRequestQueue(publicContext);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, api_url,
                 new Response.Listener<String>() {
@@ -36,23 +41,21 @@ public class Movie {
                             JSONObject res = new JSONObject(response);
                             JSONArray obj = res.getJSONArray("results");
                             JSONObject content = obj.getJSONObject(0);
+                            id[0] = content.getString("id");
                             title[0] = content.getString("title");
-                            rating[0] = content.getString("adult"); // Todo: Get more accurate rating
 
                             JSONArray genreOBJ = content.getJSONArray("genre_ids");
-                            JSONObject genreContent = genreOBJ.getJSONObject(0);
-                            String genreId = genreContent.getString("genre_ids");
+                            String genreId = genreOBJ.getString(0);
                             genre[0] = getGenre(genreId);
 
+                            getRuntime(id[0]);
+                            getRating(id[0]);
 
-                            runTime[0] = content.getString("adult"); // Todo: Get runtime
                             synoposis[0] = content.getString("overview");
                             image[0] = "https://image.tmdb.org/t/p/original" + content.getString("poster_path");
 
                             System.out.println(title[0]);
-                            System.out.println(rating[0]);
                             System.out.println(genre[0]);
-                            System.out.println(runTime[0]);
                             System.out.println(synoposis[0]);
                             System.out.println(image[0]);
 
@@ -71,7 +74,83 @@ public class Movie {
         queue.add(stringRequest);
     }
 
-    String getGenre(String id) { // Todo: FINISH!
+    void getRating(final String id) {
+        RequestQueue queue = Volley.newRequestQueue(publicContext);
+        final String rating_url = "https://api.themoviedb.org/3/movie/" + id + "/release_dates?api_key=" + api_key + "&language=en-US";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, rating_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject res = new JSONObject(response);
+                            JSONArray obj = res.getJSONArray("results");
+                            JSONObject content = obj.getJSONObject(0);
+                            JSONArray releaseArray = content.getJSONArray("release_dates");
+                            JSONObject typeContent = releaseArray.getJSONObject(0);
+                            rating[0] = getRate(typeContent.getString("type"));
+                            System.out.println(rating[0]);
+                        } catch (JSONException error) {
+                            error.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+
+
+
+        queue.add(stringRequest);
+    }
+
+    void getRuntime(final String id) { // Minutes to hours
+        RequestQueue queue = Volley.newRequestQueue(publicContext);
+        final String runTime_url = "https://api.themoviedb.org/3/movie/" + id + "?api_key=" + api_key + "&language=en-US&page=1";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, runTime_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject res = new JSONObject(response);
+                            runTime[0] = res.getString("runtime");
+                            System.out.println(runTime[0]);
+                        } catch (JSONException error) {
+                            error.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+
+        queue.add(stringRequest);
+    }
+
+    String getRate(String id) {
+        if (id.equals("0")) {
+            return "NR";
+        } else if (id.equals("1")) {
+            return "G";
+        }  else if (id.equals("2")) {
+            return "PG";
+        } else if (id.equals("3")) {
+            return "PG-13";
+        } else if (id.equals("4")) {
+            return "R";
+        } else if (id.equals("5")) {
+            return "NC-17";
+        } else {
+            return "Unknown";
+        }
+    }
+
+    String getGenre(String id) {
         if (id.equals("28")) {
             return "Action";
         } else if (id.equals("12")) {
@@ -127,8 +206,16 @@ public class Movie {
         return title[item];
     }
 
-    String subTitle(int item) {
-        return rating[item] + " | " + genre[item] + " | " + runTime[item];
+    String rating(int item) { // Todo: Separate them
+        return rating[item];
+    }
+
+    String genre(int item) { // Todo: Separate them
+        return genre[item];
+    }
+
+    String runTime(int item) { // Todo: Separate them
+        return runTime[item];
     }
 
     String description(int item) {
