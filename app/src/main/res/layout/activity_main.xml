@@ -10,80 +10,65 @@
         android:id="@+id/poster"
         android:layout_width="149dp"
         android:layout_height="200dp"
-        app:srcCompat="?attr/colorAccent"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="142dp" />
+        app:srcCompat="@color/colorAccent"
+        tools:layout_editor_absoluteX="17dp"
+        tools:layout_editor_absoluteY="139dp" />
 
     <TextView
         android:id="@+id/movieTitle"
         android:layout_width="198dp"
         android:layout_height="50dp"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="170dp"
-        tools:layout_editor_absoluteY="142dp" />
+        android:text="MOVIE"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        tools:layout_editor_absoluteX="166dp"
+        tools:layout_editor_absoluteY="77dp" />
 
     <TextView
         android:id="@+id/rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="212dp" />
+        android:text="RATING"
+        tools:layout_editor_absoluteX="186dp"
+        tools:layout_editor_absoluteY="157dp" />
 
     <TextView
         android:id="@+id/genre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="260dp" />
+        android:text="GENRE"
+        tools:layout_editor_absoluteX="186dp"
+        tools:layout_editor_absoluteY="223dp" />
 
     <TextView
         android:id="@+id/runtime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="312dp" />
-
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="352dp"
-        android:layout_height="151dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="350dp">
-
-        <TextView
-            android:id="@+id/synopsis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="357dp" />
-    </ScrollView>
+        android:text="RUNTIME"
+        tools:layout_editor_absoluteX="186dp"
+        tools:layout_editor_absoluteY="294dp" />
 
     <Button
-        android:id="@+id/nextButton"
+        android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="273dp"
-        tools:layout_editor_absoluteY="16dp" />
-
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="16dp" />
+        android:text="BACK"
+        tools:layout_editor_absoluteX="45dp"
+        tools:layout_editor_absoluteY="77dp" />
 
     <ImageView
         android:id="@+id/appTitle"
         android:layout_width="153dp"
-        android:layout_height="62dp"
+        android:layout_height="48dp"
         app:srcCompat="@android:color/holo_blue_bright"
         tools:layout_editor_absoluteX="116dp"
-        tools:layout_editor_absoluteY="50dp" />
+        tools:layout_editor_absoluteY="16dp" />
+
+    <TextView
+        android:id="@+id/synopsis"
+        android:layout_width="351dp"
+        android:layout_height="145dp"
+        android:text="SYNOPSIS"
+        tools:layout_editor_absoluteX="17dp"
+        tools:layout_editor_absoluteY="350dp" />
 
 </android.support.constraint.ConstraintLayout>
