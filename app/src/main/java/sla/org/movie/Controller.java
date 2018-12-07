@@ -4,16 +4,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class Controller {
-}
+
 
     private ScrollView scrollDown;
     private TextView appTextView;
     private TextView movieTitleTextView;
     private TextView rgrSideTextView;
     private TextView synopsisTextView;
-
-
-
 
 
     private Model Movie;
@@ -25,3 +22,4 @@ public class Controller {
         synopsisTextView = stv;
         scrollDown = sd;
     }
+}
